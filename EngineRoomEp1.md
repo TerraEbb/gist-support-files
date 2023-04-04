@@ -1,9 +1,9 @@
 ### Running NGINX in Docker as a layer 4 load balancer
 
-### Create a nginx.conf file and save it
+### Create a nginx.conf file and save it to your user dir
 
 ```
-/etc/nginx.conf
+nginx.conf
 ```
 ```
 worker_processes 4;
