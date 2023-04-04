@@ -37,9 +37,6 @@ stream {
 ### Run this docker command
 
 ```
-docker run -d --restart=unless-stopped \
-  -p 80:80 -p 443:443 \
-  -v /etc/nginx.conf:/etc/nginx/nginx.conf \
-  nginx:1.14
+docker run --name my-custom-nginx-container -v /home/dturnbull/nginx.conf:/etc/nginx/nginx.conf:ro -d nginx
 ```
 
