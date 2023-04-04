@@ -23,9 +23,9 @@ http {
 stream {
     upstream servers {
         least_conn;
-        server IP_NODE_1:443 max_fails=3 fail_timeout=5s;
-        server IP_NODE_2:443 max_fails=3 fail_timeout=5s;
-        server IP_NODE_3:443 max_fails=3 fail_timeout=5s;
+        server 192.168.1.111:443 max_fails=3 fail_timeout=5s;
+        server 192.168.1.112:443 max_fails=3 fail_timeout=5s;
+        server 192.168.1.113:443 max_fails=3 fail_timeout=5s;
     }
     server {
         listen     443;
