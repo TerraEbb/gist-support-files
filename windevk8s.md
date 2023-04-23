@@ -14,11 +14,13 @@ Most of the tools will be installed using [WinGet](https://winget.run) a CLI pac
 winget install -e --id Microsoft.WindowsTerminal
 ```
 
-#### Install WSL from terminal with admin privilages
+#### Install WSL from terminal with admin privilages (Requires a restart)
 
 ```
 wsl --install
 ```
+
+note: install wsl extension in VScode when prompted.
 
 #### Install [Git](https://git-scm.com)
 
@@ -31,11 +33,33 @@ winget install -e --id Git.Git
 ```
 winget install -e --id Microsoft.VisualStudioCode
 ```
+Install the following extensions
+Dracula Refined
+Kubernetes (YAML installs automatically)
+markdownlint
+GitLens
 
 #### Install [Oh My Posh](https://ohmyposh.dev)
 
 ```
 winget install JanDeDobbeleer.OhMyPosh -s winget
+```
+
+```
+sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
+sudo chmod +x /usr/local/bin/oh-my-posh
+```
+
+```
+mkdir ~/.poshthemes
+wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/themes.zip -O ~/.poshthemes/themes.zip
+unzip ~/.poshthemes/themes.zip -d ~/.poshthemes
+chmod u+rw ~/.poshthemes/*.omp.*
+rm ~/.poshthemes/themes.zip
+```
+
+```
+eval "$(oh-my-posh init bash --config /home/enduser/.poshthemes/dracula.omp.json)"
 ```
 
 #### Install [Rancher Desktop](https://rancherdesktop.io)
