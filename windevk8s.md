@@ -44,12 +44,12 @@ GitLens
 ```
 winget install JanDeDobbeleer.OhMyPosh -s winget
 ```
-
+** Install Oh My Posh **
 ```
 sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
 sudo chmod +x /usr/local/bin/oh-my-posh
 ```
-
+** Download Oh My Posh themes **
 ```
 mkdir ~/.poshthemes
 wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/themes.zip -O ~/.poshthemes/themes.zip
@@ -57,9 +57,31 @@ unzip ~/.poshthemes/themes.zip -d ~/.poshthemes
 chmod u+rw ~/.poshthemes/*.omp.*
 rm ~/.poshthemes/themes.zip
 ```
-
+switch to the ubuntu user dirrctory
+```
+cd /home/[your user name]
+```
+Edite the .bashrc in this directory
+```
+sudo vi .bashrc
+```
+** Add the following line to the .bashrc **
 ```
 eval "$(oh-my-posh init bash --config /home/enduser/.poshthemes/dracula.omp.json)"
+```
+It should look like this
+```
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+
+eval "$(oh-my-posh init bash --config /home/enduser/.poshthemes/dracula.omp.json)" <------ Like This
+
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
 ```
 
 #### Install [Rancher Desktop](https://rancherdesktop.io)
