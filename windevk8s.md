@@ -91,3 +91,4 @@ Install using the downloaded bianary or use the winget command below.
 ```
 winget install -e --id suse.RancherDesktop
 ```
+Copy the overide.yaml that fond in the 
