@@ -91,4 +91,134 @@ Install using the downloaded bianary or use the winget command below.
 ```
 winget install -e --id suse.RancherDesktop
 ```
-Copy the overide.yaml that fond in the 
+
+Copy the overide.yaml found in ~/source into the directory below.
+
+```
+C:\Users\[Your user name]\AppData\Roaming\rancher-desktop\provisioning
+```
+
+#### Install Metal LB
+[Website](https://metallb.universe.tf)
+
+Deploy MetalLB
+```
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.9/config/manifests/metallb-native.yaml
+```
+
+Create and Apply the following manifests to add your IP range
+
+**note:** you will need to set aside a bank on your local network.
+note: these are already created in the repo just update the addresses to suite your environment apply the manifests
+
+IPAddressPool.yaml
+```
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: first-pool
+  namespace: metallb-system
+spec:
+  addresses:
+  - 192.168.1.95-192.168.1.99
+```
+
+L2Advertisement.yaml
+```
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: example
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - first-pool
+```
+
+Run the following commands
+```
+kubectl apply -f IPAddressPool.yaml
+kubectl apply -f L2Advertisement.yaml
+```
+
+#### Install NGINX OSS Ingress via Helm
+[Website](https://docs.nginx.com/nginx-ingress-controller/installation/)
+
+Install using helm (preferred)
+or
+Install using manifests
+
+Add the NGINX repo
+```
+helm repo add nginx-stable https://helm.nginx.com/stable
+```
+
+Update via Helm
+```
+helm repo update
+```
+
+Create NGINX namespace
+```
+kubectl create namespace nginx-ingress
+```
+
+Install NGINX Ingress controller
+```
+kubectl config set-context --current --namespace=nginx-ingress
+```
+Base Helm command
+```
+helm install my-release nginx-stable/nginx-ingress
+```
+
+Helm command to support this workshop
+```
+helm install nic nginx-stable/nginx-ingress --namespace nginx-ingress --set controller.nginxStatus.enable=true --set controller.customPorts[0].containerPort=9000 --set controller.nginxStatus.port=9000 --set controller.nginxStatus.allowCidrs=0.0.0.0/0 --set prometheus.create=true
+```
+
+Helm with custom port and ConfigMap:
+
+```
+helm install nic nginx-stable/nginx-ingress --namespace nginx-ingress --set controller.nginxStatus.enable=true --set controller.customPorts[0].containerPort=9000 --set controller.nginxStatus.port=9000 --set controller.nginxStatus.allowCidrs=0.0.0.0/0 --set prometheus.create=true --set controller.customConfigMap=nic-nginx-config --set controller.enableSnippets=true
+```
+
+Note: "my-release" can be changed to any name.  It is important to use the name "nic" for this workshop.
+
+Uninstall NGINX Ingress Controller
+
+```
+helm uninstall ny-release
+or
+helm uninstall nic
+```
+
+Validate that the nginx service was properly assigned an External-IP while in the "nic" namespace run the following
+```
+kubectl get all -n nginx-ingress
+```
+
+You should see somthing similar to the following
+```
+NAME                                     READY   STATUS    RESTARTS   AGE
+pod/nic-nginx-ingress-55dd46fcf9-smvng   1/1     Running   0          62s
+
+NAME                        TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                      AGE
+service/nic-nginx-ingress   LoadBalancer   10.43.171.131   10.1.1.100   80:30888/TCP,443:31517/TCP   62s
+
+NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/nic-nginx-ingress   1/1     1            1           62s
+
+NAME                                           DESIRED   CURRENT   READY   AGE
+replicaset.apps/nic-nginx-ingress-55dd46fcf9   1         1         1       62s
+
+```
+<br>
+
+[Top](https://github.com/nginxinc/nginx-ingress-workshops/blob/main/Rancher/docs/rdt/readme.md#starter-k8s-dev-environment)
+
+<br>
+Fin...
+
+### Authors
+- Dylen Turnbull - Developer Relations @ NGINX Inc.
