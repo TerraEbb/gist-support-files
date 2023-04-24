@@ -84,7 +84,9 @@ case $- in
 esac
 ```
 
-#### Install [Rancher Desktop](https://rancherdesktop.io)
+#### Install [Rancher Desktop](https://rancherdesktop.io) (Requires a reboot)
+
+Install using the downloaded bianary or use the winget command below.
 
 ```
 winget install -e --id suse.RancherDesktop
